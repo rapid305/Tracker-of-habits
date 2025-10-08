@@ -1,7 +1,11 @@
-from src.app.database import Base
+from app.database.database import Base
 from sqlalchemy.orm import mapped_column, Mapped
 from sqlalchemy import String , func , Enum as SqlAlchemyEnum
 from enum import Enum
+from datetime import datetime
+import uuid
+from sqlalchemy.dialects.postgresql import UUID
+
 
 class HabitCategoryEnum(str , Enum):
     HEALTH = "health"
@@ -20,15 +24,15 @@ class StatusEnum(str  , Enum):
 class Habit(Base):
     __tablename__ = "habit"
 
-    id: Mapped[int] = mapped_column(
-        String(36) ,
-        primary_key=True ,
-        index=True ,
-        server_default=func.uuid_generate_v7()
+    id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True),
+        primary_key=True,
+        default=uuid.uuid4
     )
     name: Mapped[str] = mapped_column(
         String(255) ,
-        nullable=False
+        nullable=False,
+        index=True
     )
     description: Mapped[str] = mapped_column(
         String(255) ,
@@ -47,12 +51,12 @@ class Habit(Base):
         nullable=False ,
         default=StatusEnum.ACTIVE
     )
-    created_at: Mapped[str] = mapped_column(
+    created_at: Mapped[datetime] = mapped_column(
         String(255) ,
         nullable=False ,
         server_default=func.now()
     )
-    updated_at: Mapped[str] = mapped_column(
+    updated_at: Mapped[datetime] = mapped_column(
         String(255) ,
         nullable=False ,
         server_default=func.now() ,

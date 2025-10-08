@@ -2,14 +2,20 @@
 name = "tracker"
 version = "0.1.0"
 description = ""
-authors = ["Artem <rapid9791@gmail.com>"]
+authors = ["Zyryanow Artem <"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.13"
-fastapi = "^0.117.1"
+fastapi = "==0.118.0"
 uvicorn = "^0.37.0"
 poetry-core = "^2.2.1"
+pydantic = "^2.11.10"
+pydantic-core = "^2.40.1"
+typing-inspection = "^0.4.2"
+sqlalchemy = "^2.0.43"
+python-dotenv = "^1.1.1"
+asyncpg = "^0.30.0"
 
 
 [build-system]

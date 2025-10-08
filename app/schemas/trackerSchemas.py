@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 from typing import Optional
 from datetime import datetime
-from src.app.model.trackerModel import HabitCategoryEnum , StatusEnum
+from app.model.trackerModel import HabitCategoryEnum , StatusEnum
 
 class TrackerReturnSchema(BaseModel):
     id: str
@@ -15,5 +15,12 @@ class TrackerReturnSchema(BaseModel):
 
     class Config:
         from_attributes = True
+
+class CreateHabitSchema(BaseModel):
+    name: str
+    description: Optional[str] = None
+    category: HabitCategoryEnum
+    goal: str
+    status: StatusEnum
 
 

@@ -11,8 +11,14 @@ class DatabaseConfig:
         self.password = os.getenv("DB_PASS")
         self.database = os.getenv("DB_NAME")
 
-    def get_connection_string(self):
+        if not all([self.user, self.password, self.database]):
+            raise ValueError("Database credentials are not fully set in .env file.")
+
+    def get_async_connection_string(self):
         return f"postgresql+asyncpg://{self.user}:{self.password}@{self.host}:{self.port}/{self.database}"
+
+    def get_sync_connection_string(self):
+        return f"postgresql://{self.user}:{self.password}@{self.host}:{self.port}/{self.database}"
 
 database_config = DatabaseConfig()
 

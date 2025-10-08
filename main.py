@@ -1,8 +1,13 @@
 from fastapi import FastAPI
-from src.app.router.tracker_router import router as tracker_router
+from app.router.tracker_router import router as tracker_router
 import uvicorn
 
 app = FastAPI()
+
+# @app.on_event("startup")
+# async def on_startup():
+#     await init_db()
+
 app.include_router(tracker_router)
 
 if __name__ == '__main__':
