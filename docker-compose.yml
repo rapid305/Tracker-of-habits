@@ -1,0 +1,36 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: habit_tracker_api
+    ports:
+      - "8000:8000"
+    environment:
+      - ENV=production
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USER=${DB_USER}
+      - DB_PASS=${DB_PASS}
+      - DB_NAME=${DB_NAME}
+    depends_on:
+      db:
+        condition: service_healthy
+    command: >
+      sh -c "sleep 15 && 
+             alembic upgrade head && 
+             uvicorn main:app --reload --host 0.0.0.0 --port 8000"
+  db:
+    image: postgres:13-alpine
+    container_name: habit_tracker_db
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME} -h localhost" ]
+      interval: 5s
+      timeout: 3s
+      retries: 20
