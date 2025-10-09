@@ -2,9 +2,11 @@ from pydantic import BaseModel
 from typing import Optional
 from datetime import datetime
 from app.model.trackerModel import HabitCategoryEnum , StatusEnum
+from uuid import UUID
+
 
 class TrackerReturnSchema(BaseModel):
-    id: str
+    id: UUID
     name: str
     description: Optional[str] = None
     category: HabitCategoryEnum

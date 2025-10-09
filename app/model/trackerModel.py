@@ -1,10 +1,11 @@
 from app.database.database import Base
 from sqlalchemy.orm import mapped_column, Mapped
-from sqlalchemy import String , func , Enum as SqlAlchemyEnum
+from sqlalchemy import String, func, Enum as SqlAlchemyEnum, DateTime
 from enum import Enum
 from datetime import datetime
 import uuid
 from sqlalchemy.dialects.postgresql import UUID
+
 
 
 class HabitCategoryEnum(str , Enum):
@@ -52,13 +53,11 @@ class Habit(Base):
         default=StatusEnum.ACTIVE
     )
     created_at: Mapped[datetime] = mapped_column(
-        String(255) ,
-        nullable=False ,
+        DateTime ,
         server_default=func.now()
     )
     updated_at: Mapped[datetime] = mapped_column(
-        String(255) ,
-        nullable=False ,
+        DateTime ,
         server_default=func.now() ,
         onupdate=func.now()
     )
