@@ -1,8 +1,8 @@
-"""initial
+"""first
 
-Revision ID: ad677839e1a1
+Revision ID: 1ae1f855b93c
 Revises: 
-Create Date: 2025-10-08 18:35:27.808660
+Create Date: 2025-10-09 12:57:09.780045
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = 'ad677839e1a1'
+revision: str = '1ae1f855b93c'
 down_revision: Union[str, Sequence[str], None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -28,8 +28,8 @@ def upgrade() -> None:
     sa.Column('category', sa.Enum('HEALTH', 'PRODUCTIVITY', 'PERSONAL_DEVELOPMENT', 'SOCIAL', 'HOBBIES', 'FINANCE', 'OTHER', name='habitcategoryenum'), nullable=False),
     sa.Column('goal', sa.String(length=255), nullable=False),
     sa.Column('status', sa.Enum('ACTIVE', 'INACTIVE', 'COMPLETED', name='statusenum'), nullable=False),
-    sa.Column('created_at', sa.String(length=255), server_default=sa.text('now()'), nullable=False),
-    sa.Column('updated_at', sa.String(length=255), server_default=sa.text('now()'), nullable=False),
+    sa.Column('created_at', sa.DateTime(), server_default=sa.text('now()'), nullable=False),
+    sa.Column('updated_at', sa.DateTime(), server_default=sa.text('now()'), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_index(op.f('ix_habit_name'), 'habit', ['name'], unique=False)

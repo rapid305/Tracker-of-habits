@@ -17,15 +17,6 @@ async def post_habit(schema: CreateHabitSchema , session: AsyncSession = Depends
     await session.refresh(new_habit)
     return TrackerReturnSchema.model_validate(new_habit)
 
-@router.get("/{habit_id}" , response_model=TrackerReturnSchema)
-async def get_habit(habit_id : str , session: AsyncSession = Depends(get_session)):
-    query = select(Habit).where(Habit.id == habit_id)
-    result = await session.execute(query)
-    habit = result.scalars().first()
-    if not habit:
-        return {"error": "Habit not found"}
-    return TrackerReturnSchema.model_validate(new_habit)
-
 @router.get("/" , response_model=List[TrackerReturnSchema])
 async def get_all_habits(session: AsyncSession = Depends(get_session)):
     query = select(Habit).order_by(Habit.id)
@@ -33,4 +24,11 @@ async def get_all_habits(session: AsyncSession = Depends(get_session)):
     get_habits = result.scalars().all()
     return [TrackerReturnSchema.model_validate(habit) for habit in get_habits]
 
-
+@router.get("/{habit_id}" , response_model=TrackerReturnSchema)
+async def get_habit(habit_id : str , session: AsyncSession = Depends(get_session)):
+    query = select(Habit).where(Habit.id == habit_id)
+    result = await session.execute(query)
+    habit = result.scalars().first()
+    if not habit:
+        return {"error": "Habit not found"}
+    return TrackerReturnSchema.model_validate(habit)
